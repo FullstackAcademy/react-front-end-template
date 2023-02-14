@@ -89,9 +89,9 @@ export const Login = (props) => {
           />
           <button disabled={!username || !password}>Login</button>
         </div>
-        {/* <Link to='/Register'>
+        <Link to='/Register'>
           Don't Have An Account Yet? Click Here.
-        </Link> */}
+        </Link>
       </form>
     </div>
   );

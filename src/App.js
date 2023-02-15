@@ -14,9 +14,10 @@ const App = () => {
         <Link to='/login'>Login</Link>
         <Link to='/register'>Register</Link>
       </nav>
+      {user.username ? <h3>{`welcome back: ${user.username}`}</h3>:null}
       <Routes>
         <Route path='/login' element={<Login user={user} setUser={setUser} token={token} />} />
-        <Route path='/register' element={<Register username={username} setUsername={setUsername} password={password} setPassword={setPassword} />} />
+        <Route path='/register' element={<Register setUser={setUser} setToken={setToken} />} />
       </Routes>
     </div>
   );

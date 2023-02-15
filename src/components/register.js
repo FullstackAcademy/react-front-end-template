@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchRegister } from '../api/fetch';
-export const Register = () => {
+export const Register = (props) => {
+    const {setUser, setToken} = props;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const register = (ev) => {
+    const register = async(ev) => {
         ev.preventDefault();
-        fetchRegister(username, password)
-        console.log(fetchRegister(username, password))
-            .then(response => response.json())
-            .then(result => {
-                console.log(result);
-                console.log('Account Created!');
-                // const redirectposts = () => {
-                //     window.location.href = '/dist/#/posts';
-                // }
-                // //redirectposts();
-            })
-            .catch(err => console.log(err));
+        const register = await fetchRegister(username, password)
+        console.log(register)
+        if(register.token){
+            setToken(register.token);
+            window.localStorage.setItem('token', token);
+        }
+        if(register.user){
+            setUser(register.user);
+        }
     };
     return (
         <div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchLogin,fetchUser } from '../api/fetch';
+import { fetchLogin, fetchUser } from '../api/fetch';
 
 export const Login = (props) => {
   const user = props.user;
@@ -16,39 +16,21 @@ export const Login = (props) => {
       return
     }
     try {
-      fetchLogin(username,password);
+      fetchLogin(username, password);
     } catch (error) {
       console.error(error);
     }
   }, []);
 
-  const login = (ev) => {
+  const login = async(ev) => {
     ev.preventDefault();
-    fetchLogin(username,password)
-      .then(response => response.json())
-      .then(result => {
-        console.log('This is the result from login')
-        console.log(result)
-        const token = result.data.token;
-        window.localStorage.setItem('token', token);
-        fetchUser()
-          .then(response => response.json())
-          .then(result => {
-            console.log('this should be the user')
-            console.log(user)
-            const user = result.data;
-            setUser(user);
-            //  redirectposts();
-          })
-          .catch(console.error);
-      })
-      .catch(err => console.log(err));
-  };
-
-  //   const redirectposts = () => {
-  //     window.location.href = '/dist/index.html#/posts';
-  //   }
-
+    const login = await fetchLogin(username, password)
+    const token = login.token;
+    window.localStorage.setItem('token', token);
+    const user = await fetchUser(token)
+    console.log(user)
+    setUser(user);
+  }
   return (
     <div>
       <form className='login' onSubmit={login} >

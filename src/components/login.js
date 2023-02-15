@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchLogin,fetchUser } from '../api/fetch';
 
 export const Login = (props) => {
   const user = props.user;
@@ -10,23 +11,12 @@ export const Login = (props) => {
 
   useEffect(() => {
     const token = window.localStorage.getItem('token');
-    console.log(token)
+    console.log(token);
     if (!token) {
       return
     }
     try {
-      fetch('http://fitnesstrac-kr.herokuapp.com/api/users/me', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-      })
-        .then(response => response.json())
-        .then(result => {
-          const newUser = result.data;
-          setUser(newUser);
-          console.log(newUser)
-        })
+      fetchLogin(username,password);
     } catch (error) {
       console.error(error);
     }
@@ -34,40 +24,30 @@ export const Login = (props) => {
 
   const login = (ev) => {
     ev.preventDefault();
-    fetch('http://fitnesstrac-kr.herokuapp.com/api/users/login', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        user: { username: username, password: password }
-      })
-    })
+    fetchLogin(username,password)
       .then(response => response.json())
       .then(result => {
+        console.log('This is the result from login')
         console.log(result)
         const token = result.data.token;
         window.localStorage.setItem('token', token);
-        fetch('http://fitnesstrac-kr.herokuapp.com/api/users/me', {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-        })
+        fetchUser()
           .then(response => response.json())
           .then(result => {
+            console.log('this should be the user')
+            console.log(user)
             const user = result.data;
             setUser(user);
-          //  redirectposts();
+            //  redirectposts();
           })
           .catch(console.error);
       })
       .catch(err => console.log(err));
   };
 
-//   const redirectposts = () => {
-//     window.location.href = '/dist/index.html#/posts';
-//   }
+  //   const redirectposts = () => {
+  //     window.location.href = '/dist/index.html#/posts';
+  //   }
 
   return (
     <div>

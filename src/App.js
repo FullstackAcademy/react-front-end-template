@@ -5,6 +5,8 @@ import { Register } from './components/register';
 
 const App = () => {
   const [user, setUser] = useState({});
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [token, setToken] = useState(null);
   return (
     <div>
@@ -14,7 +16,7 @@ const App = () => {
       </nav>
       <Routes>
         <Route path='/login' element={<Login user={user} setUser={setUser} token={token} />} />
-        <Route path='/register' element={<Register register={user} />} />
+        <Route path='/register' element={<Register username={username} setUsername={setUsername} password={password} setPassword={setPassword} />} />
       </Routes>
     </div>
   );

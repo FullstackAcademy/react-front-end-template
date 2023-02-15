@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { fetchRegister } from '../api/fetch';
 export const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const register = (ev) => {
         ev.preventDefault();
-        fetch('http://fitnesstrac-kr.herokuapp.com/api/users/register', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                user: { username: username, password: password }
-            })
-        })
+        fetchRegister(username, password)
+        console.log(fetchRegister(username, password))
             .then(response => response.json())
             .then(result => {
                 console.log(result);

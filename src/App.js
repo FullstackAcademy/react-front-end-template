@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { getAllRoutines } from './api/fetchRoutine';
 import { Login } from "./components/login"
 import { Register } from './components/register';
-import {ViewRoutine} from './components/routine/ViewRoutine'
+import { getAllRoutines } from './api/fetch';
+import Routine from './components/Routine';
 
 
 const App = () => {
@@ -15,10 +15,10 @@ const App = () => {
 
   useEffect(() => {
     const fetchAllRoutines = async () => {
-      const fetchedRoutines = await getAllRoutines();
-      setRoutines(fetchedRoutines);
+      const fetchedRoutines = await getAllRoutines()
+      setRoutines(fetchedRoutines)
     }
-   fetchAllRoutines()
+    fetchAllRoutines()
   }, [])
 
   return (
@@ -28,6 +28,7 @@ const App = () => {
         <Link to='/register'>Register</Link>
       </nav>
       {user.username ? <h3>{`welcome back: ${user.username}`}</h3>:null}
+      <Routine routines={routines}/>
 
       <Routes>
         <Route path='/login' element={<Login user={user} setUser={setUser} token={token} />} />

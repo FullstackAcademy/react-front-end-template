@@ -11,7 +11,7 @@ export const Login = (props) => {
 
   useEffect(() => {
     const token = window.localStorage.getItem('token');
-    console.log(token);
+    //console.log(token);
     if (!token) {
       return
     }
@@ -28,7 +28,7 @@ export const Login = (props) => {
     const token = login.token;
     window.localStorage.setItem('token', token);
     const user = await fetchUser(token)
-    console.log(user)
+    //console.log(user)
     setUser(user);
   }
   return (
